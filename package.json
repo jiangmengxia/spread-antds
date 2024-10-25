@@ -1,0 +1,64 @@
+{
+  "name": "my-spa",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@grapecity/spread-excelio": "^16.2",
+    "@grapecity/spread-sheets": "^16.2",
+    "@grapecity/spread-sheets-languagepackages": "^16.2",
+    "@grapecity/spread-sheets-print": "^16.2",
+    "@grapecity/spread-sheets-react": "^16.2",
+    "@grapecity/spread-sheets-resources-zh": "^16.2",
+    "@grapecity/spread-sheets-shapes": "^16.2",
+    "antd": "3.26.19",
+    "core-js": "^3.6.5",
+    "css-loader": "^6.7.4",
+    "less-loader": "^6.2.0",
+    "moment": "^2.29.3",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.3.1",
+    "style-loader": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.25.9",
+    "@babel/preset-env": "^7.25.9",
+    "@babel/preset-react": "^7.25.9",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^9.2.1",
+    "babel-plugin-import": "^1.13.8",
+    "eslint": "^8.0.0",
+    "html-webpack-plugin": "^5.6.3",
+    "less": "^4.2.0",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.0.5",
+    "prettier-loader": "^3.3.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^5.1.0",
+    "webpack-dev-server": "^5.1.0",
+    "webpack-merge": "^6.0.1",
+    "webpackbar": "^6.0.1"
+  },
+  "scripts": {
+    "server": "webpack serve --config test/server/webpack.dev.conf.js"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,mjs,ts,tsx}": [
+      "eslint --ext \".js,.jsx,.mjs,.ts,.tsx\""
+    ],
+    "src/*.{js,jsx,mjs,ts,tsx}": [
+      "eslint --ext \".js,.jsx,.mjs,.ts,.tsx\""
+    ]
+  },
+  "browserslist": [
+    ">0.5%",
+    ">0.5% in CN",
+    "not ie <= 8",
+    "ie 9"
+  ]
+}

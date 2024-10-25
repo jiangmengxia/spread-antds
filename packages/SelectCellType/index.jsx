@@ -4,16 +4,16 @@
  * @Email: jiangmengxia@nnuo.com
  * @Date: 2023-11-29 10:22:33
  * @LastEditors: jiangmengxia jiangmengxia@nnuo.com
- * @LastEditTime: 2024-10-22 16:38:13
- * @FilePath: \spread-antds\packages\SelectorCellType\index.js
+ * @LastEditTime: 2024-10-25 17:10:06
+ * @FilePath: \spread-antds\packages\SelectCellType\index.jsx
  */
 import * as GC from "@grapecity/spread-sheets";
 import { Select } from "antd";
 import React from "react";
 import ReactDom from "react-dom";
 import zhCN from "antd/lib/date-picker/locale/zh_CN";
-import { generateUUID } from "@/utils/uuid";
-import { isEmpty } from "@/utils/tools";
+import { generateUUID } from "../index";
+import { isEmpty } from "../index";
 import "antd/lib/select/style/css"; // 样式引入
 
 export default class SelectCellType extends GC.Spread.Sheets.CellTypes.Base {
