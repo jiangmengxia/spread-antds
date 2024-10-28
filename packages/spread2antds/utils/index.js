@@ -2,11 +2,14 @@
  * @Author: jiangmengxia jiangmengxia@nnuo.com
  * @Date: 2024-10-22 16:10:02
  * @LastEditors: jiangmengxia jiangmengxia@nnuo.com
- * @LastEditTime: 2024-10-25 17:52:32
- * @FilePath: \spread-antds\packages\index.js
+ * @LastEditTime: 2024-10-28 13:43:32
+ * @FilePath: \spread-antds\packages\spread2antds\utils\index.js
  * @Description: Description
  *
  */
+// import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
+
 export function generateUUID() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0;
@@ -31,3 +34,8 @@ const spreadAntdsManager = {
     return wrap;
   },
 };
+
+export default function render(container, vDOM) {
+  const root = createRoot(container);
+  root.render(vDOM);
+}

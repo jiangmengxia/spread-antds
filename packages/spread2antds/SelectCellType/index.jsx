@@ -3,15 +3,15 @@
  * @Author: Jiangmengxia
  * @Email: jiangmengxia@nnuo.com
  * @Date: 2023-11-29 10:22:33
- * @LastEditors: jmx 1024775461@qq.com
- * @LastEditTime: 2024-10-25 22:59:09
- * @FilePath: /spread-antds/packages/spread2antds/SelectCellType/index.jsx
+ * @LastEditors: jiangmengxia jiangmengxia@nnuo.com
+ * @LastEditTime: 2024-10-28 13:45:16
+ * @FilePath: \spread-antds\packages\spread2antds\SelectCellType\index.jsx
  */
 import * as GC from "@grapecity/spread-sheets";
 import { Select } from "antd";
 import ReactDom from "react-dom";
 import zhCN from "antd/lib/date-picker/locale/zh_CN";
-import { generateUUID } from "../utils/index";
+import render, { generateUUID } from "../utils/index";
 import { isEmpty } from "../utils/index";
 
 export default class SelectCellType extends GC.Spread.Sheets.CellTypes.Base {
@@ -141,7 +141,7 @@ export default class SelectCellType extends GC.Spread.Sheets.CellTypes.Base {
 
     this._open = true;
     const self = this;
-    ReactDom.render(
+    const vdom = (
       <Select
         showSearch
         filterOption={(inputValue, option) => {
@@ -191,9 +191,10 @@ export default class SelectCellType extends GC.Spread.Sheets.CellTypes.Base {
             </Select.Option>
           );
         })}
-      </Select>,
-      wrap2
+      </Select>
     );
+
+    render(wrap2, vdom);
 
     if (!this._events) {
       this._events = {
