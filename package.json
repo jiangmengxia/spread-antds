@@ -14,12 +14,15 @@
     "@grapecity/spread-sheets": "^16.2",
     "@grapecity/spread-sheets-react": "^16.2",
     "@grapecity/spread-sheets-resources-zh": "^16.2",
-    "antd": "^3.26.20",
+    "aihuli@spreadCellType": "link:D:/Ymh/demos/spread-antds/packages/spread-cell-type",
+    "aihuli@spreadRcMenu": "link:D:/Ymh/demos/spread-antds/packages/spread-rc-menu",
+    "aihuli@spreadTopMenu": "link:D:/Ymh/demos/spread-antds/packages/spread-top-menu",
+    "aihuli@spreadUtils": "link:D:/Ymh/demos/spread-antds/packages/spread-utils",
+    "antd": "^4.24.16",
     "fs-extra": "^11.2.0",
     "moment": "^2.30.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "spread2antds": "link:D:/Ymh/demos/spread-antds/packages/spread2antds"
+    "react-dom": "^16.14.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

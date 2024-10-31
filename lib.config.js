@@ -1,9 +1,9 @@
 /*
  * @Author: jmx 1024775461@qq.com
  * @Date: 2024-10-25 22:45:47
- * @LastEditors: jmx 1024775461@qq.com
- * @LastEditTime: 2024-10-25 23:11:40
- * @FilePath: /spread-antds/lib.config.js
+ * @LastEditors: jiangmengxia jiangmengxia@nnuo.com
+ * @LastEditTime: 2024-10-31 15:40:53
+ * @FilePath: \spread-antds\lib.config.js
  * @Description: Description
  */
 import { defineConfig } from "vite";
@@ -26,14 +26,14 @@ function copyFolderPlugin(source, destination) {
 export default defineConfig({
   build: {
     lib: {
-      entry: "./packages/spread2antds/index.js",
-      name: "spread2antds",
+      entry: "./packages/spread-cell-type/index.js",
+      name: "aihuli@spreadCellType",
     },
     copyPublicDir: true,
     outDir: "lib",
   },
   plugins: [
     react(),
-    // copyFolderPlugin("packages/spread2antds", "lib/components"), // 复制public文件夹到dist目录
+    // copyFolderPlugin("packages/spread-cell-type", "lib/components"), // 复制public文件夹到dist目录
   ],
 });

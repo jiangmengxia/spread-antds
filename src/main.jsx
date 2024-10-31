@@ -1,18 +1,24 @@
 /*
  * @Author: jmx 1024775461@qq.com
  * @Date: 2024-10-25 20:16:45
- * @LastEditors: jmx 1024775461@qq.com
- * @LastEditTime: 2024-10-25 21:37:36
- * @FilePath: /spread-antds/src/main.jsx
+ * @LastEditors: jiangmengxia jiangmengxia@nnuo.com
+ * @LastEditTime: 2024-10-31 16:35:33
+ * @FilePath: \spread-antds\src\main.jsx
  * @Description: Description
  */
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App.jsx";
 
-createRoot(document.getElementById("root")).render(
+let container = document.getElementById("root");
+if (!container) {
+  document.createElement("div", { id: "root" });
+  document.body.appendChild(container);
+}
+ReactDOM.render(
   <StrictMode>
     <App />
-  </StrictMode>
+  </StrictMode>,
+  container
 );

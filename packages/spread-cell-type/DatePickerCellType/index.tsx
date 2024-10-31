@@ -4,34 +4,39 @@
  * @Email: jiangmengxia@nnuo.com
  * @Date: 2023-11-29 10:22:33
  * @LastEditors: jiangmengxia jiangmengxia@nnuo.com
- * @LastEditTime: 2024-10-28 13:44:17
- * @FilePath: \spread-antds\packages\spread2antds\DatePickerCellType\index.jsx
+ * @LastEditTime: 2024-10-31 16:44:46
+ * @FilePath: \spread-antds\packages\spread-cell-type\DatePickerCellType\index.tsx
  */
 import * as GC from "@grapecity/spread-sheets";
-import { DatePicker } from "antd";
+import { DatePicker, DatePickerProps } from "antd";
 import * as moment from "moment";
 import React from "react";
-import { createRoot } from "react-dom/client";
-import "antd/lib/date-picker/style/css";
-import ReactDom from "react-dom";
-import zhCN from "antd/lib/date-picker/locale/zh_CN";
 import render, { generateUUID } from "../utils/index";
 import { isEmpty } from "../utils/index";
+import zhCN from "antd/lib/date-picker/locale/zh_CN";
+import "antd/lib/date-picker/style/css";
 
 export default class DatePickerCellType extends GC.Spread.Sheets.CellTypes
   .Base {
-  constructor(props) {
+  private _datePickerProps: DatePickerProps;
+  private _wrap: HTMLDivElement;
+  private _id: string;
+  private _events:
+    | {
+        innerClick: (e: any) => {} | void;
+        outerClick: (e: any) => {} | void;
+      }
+    | undefined;
+
+  constructor(datePickerProps: DatePickerProps) {
     super();
-    const { disabledDate, datePickerProps = {} } = props || {};
-    this._value = "";
-    this.datePickerProps = datePickerProps || {};
-    this.disabledDate = disabledDate;
-    this._id = generateUUID();
+    this._datePickerProps = datePickerProps; // 日期选择器属性
+    this._id = generateUUID(); // 生成唯一id
   }
 
   createEditorElement() {
     const wrap = document.createElement("div");
-    this.wrap = wrap;
+    this._wrap = wrap;
     return wrap;
   }
 
@@ -49,16 +54,17 @@ export default class DatePickerCellType extends GC.Spread.Sheets.CellTypes
     if (!wrap2) {
       wrap2 = document.createElement("div");
       wrap2.id = this._id;
-      const style = {
+      const styles = {
         width: `${width}px`,
         height: `${height}px`,
         position: "absolute",
         left: `${cleft + x}px`,
         top: `${ctop + y}px`,
-        // border: '1px solid #000',
       };
-      Object.keys(style).forEach((attr) => {
-        wrap2.style[attr] = style[attr];
+      Object.keys(styles)?.forEach((attr) => {
+        if (wrap2?.style instanceof CSSStyleDeclaration) {
+          wrap2.style![attr] = styles[attr];
+        }
       });
       document.body.appendChild(wrap2);
     }
@@ -66,33 +72,35 @@ export default class DatePickerCellType extends GC.Spread.Sheets.CellTypes
     const pickerId = `calendar_${this._id}`;
     const removeEvents = () => {
       if (!this._events) return;
-      document
-        .querySelector(`#${pickerId} .${pickerId}`)
-        ?.removeEventListener("click", this._events.innerClick);
-      document.body?.removeEventListener("click", this._events.outerClick);
+      const objNode = document?.querySelector(`#${pickerId} .${pickerId}`);
+      if (objNode) {
+        objNode?.removeEventListener("click", this._events?.innerClick);
+      }
+
+      document.body?.removeEventListener("click", this._events?.outerClick);
       this._events = undefined;
     };
     const close = () => {
       removeEvents();
       // eslint-disable-next-line no-shadow
       const wrap2 = document.getElementById(this._id);
-      wrap2.childNodes.forEach((node) => {
+      wrap2?.childNodes.forEach((node) => {
         wrap2.removeChild(node);
       });
-      wrap2.remove();
+      wrap2?.remove();
     };
     const vdom = (
       <DatePicker
-        {...this.datePickerProps}
+        {...this._datePickerProps}
         value={cellValue && moment(cellValue)}
-        disabledDate={this.disabledDate}
+        _disabledDate={this._disabledDate}
         open
         id={pickerId}
         dropdownClassName={pickerId}
         locale={zhCN}
         onChange={(v) => {
           // 不允许清空
-          if (isEmpty(v) && !this.datePickerProps.allowClear) return;
+          if (isEmpty(v) && !this._datePickerProps.allowClear) return;
           if (moment(v).format("YYYY-MM-DD") !== cellValue) {
             spread.commandManager().execute({
               cmd: "editCell",
@@ -144,22 +152,13 @@ export default class DatePickerCellType extends GC.Spread.Sheets.CellTypes
     } else {
       removeEvents();
     }
-
-    document
-      .querySelector(`#${pickerId} .${pickerId}`)
-      .addEventListener("click", this._events.innerClick, false);
-    document.body.addEventListener("mouseup", this._events.outerClick, false);
   }
 
-  // deactivateEditor() {
-  //   console.log('deactivateEditor');
-  // }
-
   setEditorValue(editor, value) {
-    this._tmpValue = value;
+    // this._tmpValue = value;
   }
 
   getEditorValue(editor) {
-    return this._tmpValue;
+    // return this._tmpValue;
   }
 }

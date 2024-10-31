@@ -4,13 +4,13 @@
  * @Email: jiangmengxia@nnuo.com
  * @Date: 2023-11-29 10:22:33
  * @LastEditors: jiangmengxia jiangmengxia@nnuo.com
- * @LastEditTime: 2024-10-28 13:45:16
- * @FilePath: \spread-antds\packages\spread2antds\SelectCellType\index.jsx
+ * @LastEditTime: 2024-10-31 16:48:31
+ * @FilePath: \spread-antds\packages\spread-cell-type\SelectCellType\index.jsx
  */
 import * as GC from "@grapecity/spread-sheets";
 import { Select } from "antd";
-import ReactDom from "react-dom";
 import zhCN from "antd/lib/date-picker/locale/zh_CN";
+import "antd/lib/select/style/css";
 import render, { generateUUID } from "../utils/index";
 import { isEmpty } from "../utils/index";
 

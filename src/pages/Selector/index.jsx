@@ -11,8 +11,8 @@ import "@grapecity/spread-sheets-resources-zh";
 import "@grapecity/spread-sheets/styles/gc.spread.sheets.excel2013white.css";
 import { SpreadSheets, Worksheet } from "@grapecity/spread-sheets-react";
 import { useRef } from "react";
-import SelectCellType from "spread2antds/SelectCellType";
-import DatePickerCellType from "spread2antds/DatePickerCellType";
+import SelectCellType from "aihuli@spreadCellType/SelectCellType";
+import DatePickerCellType from "aihuli@spreadCellType/DatePickerCellType";
 
 export default function Selector() {
   const spreadInstance = useRef();
