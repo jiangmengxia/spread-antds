@@ -1,15 +1,17 @@
 /*
  * @Author: jiangmengxia jiangmengxia@nnuo.com
  * @Date: 2024-10-31 14:12:18
- * @LastEditors: jiangmengxia jiangmengxia@nnuo.com
- * @LastEditTime: 2024-10-31 15:17:32
- * @FilePath: \spread-antds\packages\spreadTopMenu\views\ButtonMenu.tsx
+ * @LastEditors: jmx 1024775461@qq.com
+ * @LastEditTime: 2024-10-31 20:55:41
+ * @FilePath: /spread-antds/packages/spread-top-menu/views/ButtonMenu.tsx
  * @Description: Description
  */
 
 import React from "react";
 import { Menu } from "../Menu";
 import Button, { ButtonProps } from "antd/lib/button";
+import { useEffect } from "react";
+import { useState } from "react";
 
 type ButtonMenuProps = {
   menuInstance: Menu;
@@ -19,7 +21,17 @@ export default function ButtonMenu(props: ButtonMenuProps) {
   const id = menuInstance.id;
   const name = menuInstance.name;
   const type = menuInstance.type;
-  const { show, active } = menuInstance.state;
+
+  const [state, setState] = useState(menuInstance.state);
+  const { show, active } = state;
+
+  // 监听到状态变更，更新内部样式
+  useEffect(() => {
+    menuInstance.updator(setState);
+    return () => {
+      menuInstance.updator(undefined);
+    };
+  }, []);
   return (
     show && (
       <Button

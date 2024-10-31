@@ -1,9 +1,9 @@
 /*
  * @Author: jiangmengxia jiangmengxia@nnuo.com
  * @Date: 2024-10-31 11:03:39
- * @LastEditors: jiangmengxia jiangmengxia@nnuo.com
- * @LastEditTime: 2024-10-31 15:16:30
- * @FilePath: \spread-antds\packages\spreadTopMenu\Operator.ts
+ * @LastEditors: jmx 1024775461@qq.com
+ * @LastEditTime: 2024-10-31 20:48:08
+ * @FilePath: /spread-antds/packages/spread-top-menu/Operator.ts
  * @description： 操作器，具体实现根据不同操作类型，执行操作事件
  */
 export type OperatorMap = Map<string, Array<Function>>;
@@ -35,10 +35,13 @@ export class Operator {
 
   // 删除操作
   removeOpperation(type: string, fn: Function) {
-    this._oprationMap.delete(type);
+    const index = this._oprationMap.get(type)?.indexOf(fn);
+    if (index && index > -1) {
+      this._oprationMap.get(type)?.splice(index, 1);
+    }
   }
 
-  // 执行操作
+  // 执行操作, type操作命令，payload参数
   execute({ type, ...args }) {
     if (this._oprationMap.has(type)) {
       this._oprationMap.get(type)?.forEach((fn) => {

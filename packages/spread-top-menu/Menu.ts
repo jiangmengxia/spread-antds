@@ -1,9 +1,9 @@
 /*
  * @Author: jiangmengxia jiangmengxia@nnuo.com
  * @Date: 2024-10-31 11:03:39
- * @LastEditors: jiangmengxia jiangmengxia@nnuo.com
- * @LastEditTime: 2024-10-31 15:13:03
- * @FilePath: \spread-antds\packages\spreadTopMenu\Menu.ts
+ * @LastEditors: jmx 1024775461@qq.com
+ * @LastEditTime: 2024-10-31 20:54:14
+ * @FilePath: /spread-antds/packages/spread-top-menu/Menu.ts
  * @description： 菜单项，通用属性：id、name、type
  *                       通用方法：操作，响应
  */
@@ -26,22 +26,23 @@ export type MenuBaseProperty = {
   id: string;
   name: string;
   type: string;
-  state: CommonMenuState; // 菜单项状态
+  state: CommonMenuState | any; // 菜单项状态
 };
 
-export abstract class Menu {
+export class Menu {
   private _id: string; // id 唯一标识
   private _name: string; // 名称, 如剪切、复制、粘贴,用于区分功能的
   private _type: string; // 类型
   private _state: CommonMenuState; // 菜单项状态
   private _operator: Operator; // 操作
+  private _updator: (CommonMenuState) => void; // 更新视图
 
   constructor(menu: MenuBaseProperty, operator: Operator) {
-    const { id, name, type, state } = menu;
+    const { id, name, type, state = INITSTATE } = menu;
     this._id = id;
     this._name = name;
     this._type = type;
-    this._state = state;
+    this._state = state || INITSTATE;
     this._operator = operator;
   }
 
@@ -61,17 +62,28 @@ export abstract class Menu {
     return this._state;
   }
 
+  set state(state: CommonMenuState) {
+    this._state = state;
+    this?._updator(state); // 状态更新后，主动更新视图
+  }
+
+  set updator(updator: (CommonMenuState) => {}) {
+    this._updator = updator;
+  }
+
   // 触发某项操作
-  public execute(actionType: string) {
+  public execute(actionType: string, payload?: any) {
     this._operator.execute({
-      id: this._id,
-      name: this._name,
-      type: this._type,
-      state: this.state,
-      actionType,
+      type: actionType,
+      menuInfo: {
+        id: this._id,
+        name: this._name,
+        type: this._type, // 菜单项类型，用于区分功能
+        state: this.state,
+      },
+      payload,
     });
   }
 
-  // 展示
-  abstract render();
+  //
 }

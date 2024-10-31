@@ -3,13 +3,13 @@
  * @Author: Jiangmengxia
  * @Email: jiangmengxia@nnuo.com
  * @Date: 2023-11-29 10:22:33
- * @LastEditors: jiangmengxia jiangmengxia@nnuo.com
- * @LastEditTime: 2024-10-31 16:44:46
- * @FilePath: \spread-antds\packages\spread-cell-type\DatePickerCellType\index.tsx
+ * @LastEditors: jmx 1024775461@qq.com
+ * @LastEditTime: 2024-10-31 22:23:18
+ * @FilePath: /spread-antds/packages/spread-cell-type/DatePickerCellType/index.tsx
  */
 import * as GC from "@grapecity/spread-sheets";
 import { DatePicker, DatePickerProps } from "antd";
-import * as moment from "moment";
+import moment from "moment";
 import React from "react";
 import render, { generateUUID } from "../utils/index";
 import { isEmpty } from "../utils/index";
@@ -19,12 +19,11 @@ import "antd/lib/date-picker/style/css";
 export default class DatePickerCellType extends GC.Spread.Sheets.CellTypes
   .Base {
   private _datePickerProps: DatePickerProps;
-  private _wrap: HTMLDivElement;
   private _id: string;
   private _events:
     | {
-        innerClick: (e: any) => {} | void;
-        outerClick: (e: any) => {} | void;
+        innerClick?: (e: any) => {} | void;
+        outerClick?: (e: any) => {} | void;
       }
     | undefined;
 
@@ -36,29 +35,42 @@ export default class DatePickerCellType extends GC.Spread.Sheets.CellTypes
 
   createEditorElement() {
     const wrap = document.createElement("div");
-    this._wrap = wrap;
     return wrap;
   }
 
   activateEditor(editorContext, cellStyle, cellRect, context) {
+    GC.Spread.Sheets.CellTypes.Base.prototype.activateEditor.call(
+      this,
+      editorContext,
+      cellStyle,
+      cellRect,
+      context
+    );
     const { width, height, x: cleft, y: ctop } = cellRect;
     const { sheet, row, col } = context;
     const hostDiv = sheet.getParent().getHost();
-    console.log("getParent", sheet.getParent());
     const spread = sheet.getParent();
-    // const canvasId = `${hostDiv}vp_vp`;
-    // console.log('hostDiv', hostDiv, hostDiv.getBoundingClientRect());
     const { x, y } = hostDiv.getBoundingClientRect();
+
+    const [_, paddingLeft, __, paddingRight] = cellStyle?.cellPadding?.split(
+      " "
+    ) || [0, 0, 0, 0];
 
     let wrap2 = document.getElementById(this._id);
     if (!wrap2) {
       wrap2 = document.createElement("div");
       wrap2.id = this._id;
+
       const styles = {
-        width: `${width}px`,
+        width: `${
+          Number(width) +
+          Number(paddingRight || 0) +
+          Number(paddingLeft || 0) +
+          2
+        }px`,
         height: `${height}px`,
         position: "absolute",
-        left: `${cleft + x}px`,
+        left: `${cleft + x - paddingLeft}px`,
         top: `${ctop + y}px`,
       };
       Object.keys(styles)?.forEach((attr) => {
@@ -93,7 +105,6 @@ export default class DatePickerCellType extends GC.Spread.Sheets.CellTypes
       <DatePicker
         {...this._datePickerProps}
         value={cellValue && moment(cellValue)}
-        _disabledDate={this._disabledDate}
         open
         id={pickerId}
         dropdownClassName={pickerId}
@@ -120,7 +131,10 @@ export default class DatePickerCellType extends GC.Spread.Sheets.CellTypes
           }
           close();
         }}
-        getCalendarContainer={(e) => e.parentElement}
+        getPopupContainer={(e) =>
+          document.getElementById(this._id) || e.parentElement
+        }
+        style={{ width: "100%", height: "100%" }}
       />
     );
     render(wrap2, vdom);
